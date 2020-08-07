@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol ListViewControllerDelegate: class {
-    func update(contact: Contact, indexPath: IndexPath)
-}
-
 class ListViewController: UITableViewController {
     
     private var contactList: [Contact] = []
@@ -53,14 +49,10 @@ class ListViewController: UITableViewController {
             let tuple = sender as! (Contact, IndexPath)
             detailVC.contact = tuple.0
             detailVC.indexPath = tuple.1
-            detailVC.delegate = self
+            detailVC.updater = { [unowned self] contact, indexPath in
+                self.contactList[indexPath.row] = contact
+                self.indexPathReload = indexPath
+            }
         }
-    }
-}
-
-extension ListViewController: ListViewControllerDelegate {
-    func update(contact: Contact, indexPath: IndexPath) {
-        contactList[indexPath.row] = contact
-        indexPathReload = indexPath
     }
 }

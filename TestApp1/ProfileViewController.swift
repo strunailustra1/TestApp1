@@ -14,7 +14,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var phoneTextField: UITextField!
     
     var contact: Contact!
-    weak var delegate: DetailViewControllerDelegate!
+    var updater: ((Contact) -> ())!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +41,7 @@ class ProfileViewController: UIViewController {
         contact.name = nameTextField.text ?? ""
         contact.phone = phoneTextField.text ?? ""
         
-        delegate.update(contact)
+        updater(contact)
         
         dismiss(animated: true)
     }
